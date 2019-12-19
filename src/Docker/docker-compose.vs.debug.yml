@@ -1,0 +1,39 @@
+version: "3.7" # This file is merged with the other compose when debugging from Visual Studio
+
+services:
+  todos:
+    ports:
+      - "5081:80" # Each microservice gets its own port for debugging
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ElasticsearchUrl=http://elasticsearch:9200 # Configuration of microservices: only in effect in debug mode
+      - ASPNETCORE_RedisUrl=redis:6379
+
+  web:
+    ports:
+      - "5082:80"
+    image: todoapp/web:dev
+    build:
+      target: base # When debugging, do not complete the entire Dockerfile, only build the target with name base
+    volumes: # Then mount the source files from the host, built as part of the related csproj
+      - type: bind
+        source: ..\web\client\build
+        target: /app/wwwroot
+        read_only: true
+
+  users:
+    ports:
+      - "5083:80"
+    image: todoapp/users:dev # When debugging, use the image build by the related csproj
+    environment:
+      - TODOAPP_MongoUrl=mongodb://mongodb:27017
+      - TODOAPP_RedisUrl=redis
+      - TODOAPP_IsDevelopment=true
+
+  mongodb:
+    ports:
+      - "27017:27017" # For debugging, makes mongodb available on localhost:27017
+
+  elasticsearch:
+    ports:
+      - "9200:9200" # For debugging, makes Elasticsearch available on localhost:9200
