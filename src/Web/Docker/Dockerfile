@@ -7,9 +7,9 @@ FROM node:12.6.0-alpine as build
 WORKDIR /src
 COPY ["Web/Client", "Client/"]
 WORKDIR /src/Client
-RUN yarn
-RUN yarn build
+RUN npm i
+RUN npm run-script build
 
 FROM base AS final
 WORKDIR /app
-COPY --from=build /src/Client/build /app/wwwroot
+COPY --from=build /src/Client/dist/qms /app/wwwroot

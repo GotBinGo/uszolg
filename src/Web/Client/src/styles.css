@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+div:last-of-type.mat-tab-label {
+    margin-left: auto;
+}
+
+.white div:last-of-type.mat-tab-label {
+    margin-left: 0;
+}
+
+mat-tab-header {
+    background-color: #7999c0;
+}
+
+.white mat-tab-header {
+    background-color: #ffffff;
+}
+
+body {
+    background-color: #64678f;
+}

@@ -1,0 +1,83 @@
+<div class="" *ngIf="number === null">
+  <zxing-scanner *ngIf="reading" class="reader" [torch]='torch' (scanSuccess)="onCodeResult($event)"></zxing-scanner>
+  <mat-card *ngIf="!reading" class="mt-1 vertical-center" style="max-width: 800px;">
+    <form  ngSubmit="emailLogin()" class="example-container">
+      <!-- <h4 class="mb-3 mt-3">{{qrResult}}</h4> -->
+
+      <div *ngIf="!org">
+        <h3 class="float-left">Pick an organization</h3>
+        <button (click)="reading = true" class="float-right" mat-mini-fab color="accent" >
+          <mat-icon class="qms-tab-icon">camera_alt</mat-icon>
+        </button>
+      </div>
+
+      <div class="row" *ngIf="!org">
+        <div class="col-12">
+          <!-- <button (click)="reading = true" class="w-100 pt-1 pb-1 mt-2 mb-2" mat-raised-button color="primary" >Scan Organization Code </button> -->
+          <!-- <h3 class="float-left">{{orgs[org].name}}</h3> -->
+
+          <button *ngFor="let i of objectKeys(orgs)" (click)="onOrgSelect(i)" class="w-100 pt-1 pb-1 mt-2 mb-2" mat-raised-button color="" >{{orgs[i].name}}</button>
+        </div>
+      </div>
+
+
+      <div *ngIf="org">
+        <h3 class="float-left">{{orgs[org].name}}</h3>
+        <button (click)="back()" class="float-right ml-3" mat-mini-fab color="" >
+            <mat-icon class="qms-tab-icon">arrow_back</mat-icon>
+        </button>
+      </div>
+
+      <div class="row" *ngIf="org">
+        <div *ngIf="cases && cases.length" class="col-12">
+          <p *ngIf="!objectKeys(cases).length" class="w-100 mt-3">No cases here.</p>
+          <button *ngFor="let i of objectKeys(cases)" (click)="onNewNumber(cases[i].case)" class="w-100 pt-1 pb-1 mt-2 mb-2" mat-raised-button color="primary" >{{cases[i].name}}</button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+  <div *ngIf="reading" class="flash-button">
+    <button (click)="flash()" mat-raised-button color="primary" class="float-right">Flash</button>
+  </div>
+</div>
+
+
+
+<div class="" *ngIf="number && login">
+  <mat-card *ngIf="!reading && !done" class="mt-1 vertical-center" style="max-width: 800px;">
+    <h4 class="mb-3 mt-3">You are waiting in line</h4>
+    <h4 *ngIf="number && number.status && cases && cases.length" class="mb-3 mt-3">Your case: {{cases[number.case].name}}</h4>
+    <h4 *ngIf="number && number.status && number.status == 'waiting'" class="mb-3 mt-3">Please Wait!</h4>
+    <h4 *ngIf="number && number.status && number.status == 'waiting' && number.timeToGo" class="mb-3 mt-3">About {{number.timeToGo * 5}} minutes to go.</h4>
+    <h4 *ngIf="number && number.status && number.status == 'waiting' && !number.timeToGo" class="mb-3 mt-3">You are about to be called.</h4>
+    <h4 *ngIf="number && number.status && number.status == 'processing'" style="color: green;" class="mb-3 mt-3">You are on!!!</h4>
+    <h4 *ngIf="number && number.status && number.status == 'processing'" style="color: green;" class="mb-3 mt-3">Please come to the {{ number.whereToGo }}.</h4>
+
+    <!-- {{number | json}} -->
+    <div class="mt-2"></div>
+    <button (click)="cancelNumber()" mat-raised-button color="warn" class="float-right">Cancel Number</button>
+    <button (click)="delayNumber()" *ngIf="number.status === 'waiting'" mat-raised-button color="accent" class="float-left">Delay Number</button>
+    <div class="mb-5"></div>
+  </mat-card>
+  <mat-card *ngIf="!reading && done" class="mt-1 vertical-center" style="max-width: 800px;">
+    <h4 class="mb-3 mt-3">See you later.</h4>
+    <mat-icon (click)="thumbs()" style="font-size: 80px; text-align: center; color: green; width: 100%;" class="qms-tab-icon">thumb_up</mat-icon>
+
+  </mat-card>
+
+</div>
+  
+
+<div class="" *ngIf="number !== null && !login">
+  <mat-card *ngIf="!reading" class="mt-1 vertical-center" style="max-width: 800px;">
+    <h4 class="mb-3 mt-3">Pick One</h4>
+    <div class="row">
+      <div class="col-6">
+        <button (click)="guest()" class="w-100 pt-3 pb-3 mt-2 mb-2" mat-raised-button color="" >Guest</button>
+      </div>
+      <div class="col-6">
+        <button (click)="logIn()" class="w-100 pt-3 pb-3 mt-2 mb-2" mat-raised-button color="primary">Log In</button>
+      </div>
+    </div>
+  </mat-card>
+</div>
