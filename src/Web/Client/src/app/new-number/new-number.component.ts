@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ServicesService } from '../services.service';
 import { FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TextInputModalComponent } from '../text-input-modal/text-input-modal.component';
 
 @Component({
   selector: 'app-new-number',
@@ -13,6 +14,7 @@ export class NewNumberComponent implements OnInit, OnDestroy {
   constructor(private servicesService: ServicesService,
     private matSnackBar: MatSnackBar,
     private route: Router,
+    public dialog: MatDialog,
     private ar: ActivatedRoute) { }
   dot = '.';
   endingControl = new FormControl('');
@@ -96,14 +98,25 @@ export class NewNumberComponent implements OnInit, OnDestroy {
   }
 
   onNewNumber(n) {
-    this.lastSelectedCase = n;
-    this.servicesService.getNewNumber(n, this.org).subscribe(x => {
-      if (x && !x.errors) {
-        this.number = x;
-      } else {
-        this.number = null;
+    const dialogRef = this.dialog.open(TextInputModalComponent, {
+      width: '80%',
+      maxWidth: '500px',
+      data: {title: 'Download audio', text: 'Paste here the link of the video.'}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        this.lastSelectedCase = n;
+        this.servicesService.getNewNumber(n, this.org, result).subscribe(x => {
+          if (x && !x.errors) {
+            this.number = x;
+          } else {
+            this.number = null;
+          }
+        });
       }
     });
+
   }
 
   onCodeResult(x) {

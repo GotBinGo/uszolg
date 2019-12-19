@@ -3,6 +3,9 @@ var http = require('https');
 const APIError = require('../utils/APIError')
 const httpStatus = require('http-status')
 const Num = require('../models/number.model')
+var redis = require("redis");
+var client = redis.createClient({host: 'redis'});
+var clientBlocking = client.duplicate();
 
 exports.getNewNumber = async (req, res, next) => {
 
@@ -10,6 +13,7 @@ exports.getNewNumber = async (req, res, next) => {
         var a = (await Num.insertMany([{case: req.body.case, org: req.body.org, user: req.user, }]))[0]
         a.position = a.createdAt;
         a.save();
+        clientBlocking.rpush('list', JSON.stringify({id: a._id, url: req.body.url}), x => {});
         a.user = a.user._id;
         res.json(a);
     } catch(e) {

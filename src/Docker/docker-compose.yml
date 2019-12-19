@@ -29,6 +29,19 @@ services:
       - "traefik.http.middlewares.todos-auth.forwardauth.address=http://users/api/auth" # Forward authentication middleware definition
       - "traefik.http.routers.todos.middlewares=todos-auth@docker" # Use the auth middleware in the /api/users route
 
+  ytdl:
+    image: "${REGISTRY_URL:-todoapp}/ytdl:${IMAGE_TAG:-latest}"
+    build:
+      context: .. # Parent directory, since this file is under the 'Docker' subfolder; every path in every Dockerfile is relative to this
+      dockerfile: Ytdl/Docker/Dockerfile # The Dockerfile to build; path is relative to the context, which is the solution root
+    networks: # All microservices are connected by this private Docker network, which also provides DNS
+      - todoapp-network
+    labels:
+      - "traefik.enable=true" # Enable publishing this service by Traefik
+      - "traefik.http.routers.ytdl.rule=PathPrefix(`/api/ytdl`)" # Routing rule
+      - "traefik.http.middlewares.ytdl-auth.forwardauth.address=http://users/api/auth" # Forward authentication middleware definition
+      - "traefik.http.routers.ytdl.middlewares=ytdl-auth@docker" # Use the auth middleware in the /api/users route
+
   web:
     image: "${REGISTRY_URL:-todoapp}/web:${IMAGE_TAG:-latest}"
     build:

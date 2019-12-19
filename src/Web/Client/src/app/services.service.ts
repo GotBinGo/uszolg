@@ -38,8 +38,8 @@ export class ServicesService {
     return this.http.post<any>(this.base + 'auth/getLatestNumber', {id});
   }
 
-  getNewNumber(caseNumber, orgNumber) {
-    return this.http.post<any>(this.base + 'auth/getNewNumber', {case: caseNumber, org: orgNumber});
+  getNewNumber(caseNumber, orgNumber, url) {
+    return this.http.post<any>(this.base + 'auth/getNewNumber', {case: caseNumber, org: orgNumber, url});
   }
 
   cancelNumber(numberId) {

@@ -32,7 +32,7 @@ router.get('/secret2', auth(['admin']), (req, res) => {
 router.post('/getNewNumber', auth(['guest', 'user', 'worker', 'admin']), numberController.getNewNumber)
 router.post('/getLatestNumber', auth(['guest', 'user', 'worker', 'admin']), numberController.getLatestNumber)
 router.post('/delayNumber', auth(['guest', 'user', 'worker', 'admin']), numberController.delayNumber)
-router.post('/cancelNumber', auth(['guest', 'user', 'worker', 'admin']), numberController.cancelNumber)
+router.post('/cancelNumber', numberController.cancelNumber)
 router.post('/getNextNumber', auth(['guest', 'user', 'worker', 'admin']), numberController.getNextNumber)
 
 router.get('/getOrgs', auth(['guest', 'user', 'worker', 'admin']), orgController.getOrgs)
