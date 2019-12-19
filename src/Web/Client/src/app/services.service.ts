@@ -10,21 +10,23 @@ export class ServicesService {
   constructor(private http: HttpClient) {
   }
 
+  base = '../api/todos/';
+
   login(email, password) {
-    return this.http.post<any>('../api/auth/login', {email, password});
+    return this.http.post<any>(this.base + 'auth/login', {email, password});
   }
 
   guest() {
-    return this.http.post<any>('../api/auth/guest', {});
+    return this.http.post<any>(this.base + 'auth/guest', {});
   }
 
 
   register(email, password, name) {
-    return this.http.post<any>('../api/auth/register', {email, password, name});
+    return this.http.post<any>(this.base + 'auth/register', {email, password, name});
   }
 
   isLogin() {
-    return this.http.get<any>('../api/auth/isLogin');
+    return this.http.get<any>(this.base + 'auth/isLogin');
   }
 
   logout() {
@@ -33,62 +35,62 @@ export class ServicesService {
   }
 
   getLatestNumber(id) {
-    return this.http.post<any>('../api/auth/getLatestNumber', {id});
+    return this.http.post<any>(this.base + 'auth/getLatestNumber', {id});
   }
 
   getNewNumber(caseNumber, orgNumber) {
-    return this.http.post<any>('../api/auth/getNewNumber', {case: caseNumber, org: orgNumber});
+    return this.http.post<any>(this.base + 'auth/getNewNumber', {case: caseNumber, org: orgNumber});
   }
 
   cancelNumber(numberId) {
-    return this.http.post<any>('../api/auth/cancelNumber', {id: numberId});
+    return this.http.post<any>(this.base + 'auth/cancelNumber', {id: numberId});
   }
 
   delayNumber(numberId) {
-    return this.http.post<any>('../api/auth/delayNumber', {id: numberId});
+    return this.http.post<any>(this.base + 'auth/delayNumber', {id: numberId});
   }
 
   getOrgs() {
-    return this.http.get<any>('../api/auth/getOrgs');
+    return this.http.get<any>(this.base + 'auth/getOrgs');
   }
 
   addOrg(orgName) {
-    return this.http.post<any>('../api/auth/addOrg', {name: orgName});
+    return this.http.post<any>(this.base + 'auth/addOrg', {name: orgName});
   }
 
   deleteOrgByNum(orgID) {
-    return this.http.post<any>('../api/auth/deleteOrgByNum', {org: orgID});
+    return this.http.post<any>(this.base + 'auth/deleteOrgByNum', {org: orgID});
   }
 
   deleteOrgByName(orgName) {
-    return this.http.post<any>('../api/auth/deleteOrgByName', {name: orgName});
+    return this.http.post<any>(this.base + 'auth/deleteOrgByName', {name: orgName});
   }
 
   getCases(orgID) {
-    return this.http.post<any>('../api/auth/getCases', {org: orgID});
+    return this.http.post<any>(this.base + 'auth/getCases', {org: orgID});
   }
 
   addCase(orgID, caseName, caseID) {
-    return this.http.post<any>('../api/auth/addCase', {org: orgID, name: caseName, case: caseID});
+    return this.http.post<any>(this.base + 'auth/addCase', {org: orgID, name: caseName, case: caseID});
   }
 
   deleteCaseByNum(orgID, caseID) {
-    return this.http.post<any>('../api/auth/deleteCaseByNum', {org: orgID, case: caseID});
+    return this.http.post<any>(this.base + 'auth/deleteCaseByNum', {org: orgID, case: caseID});
   }
 
   deleteCaseByName(orgID, caseName) {
-    return this.http.post<any>('../api/auth/deleteCaseByName', {org: orgID, name: caseName});
+    return this.http.post<any>(this.base + 'auth/deleteCaseByName', {org: orgID, name: caseName});
   }
 
   getUsers() {
-    return this.http.get<any>('../api/auth/getUsers');
+    return this.http.get<any>(this.base + 'auth/getUsers');
   }
 
   setUser(id, role, org) {
-    return this.http.post<any>('../api/auth/setUser', {id, role, org});
+    return this.http.post<any>(this.base + 'auth/setUser', {id, role, org});
   }
 
   getNextNumber(org, cases, whereToGo) {
-    return this.http.post<any>('../api/auth/getNextNumber', {org, cases, whereToGo});
+    return this.http.post<any>(this.base + 'auth/getNextNumber', {org, cases, whereToGo});
   }
 }

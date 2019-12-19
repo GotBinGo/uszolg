@@ -20,7 +20,7 @@ services:
     image: "${REGISTRY_URL:-todoapp}/todos:${IMAGE_TAG:-latest}"
     build:
       context: .. # Parent directory, since this file is under the 'Docker' subfolder; every path in every Dockerfile is relative to this
-      dockerfile: Todos/Todos.Api/Dockerfile # The Dockerfile to build; path is relative to the context, which is the solution root
+      dockerfile: Todos/Docker/Dockerfile # The Dockerfile to build; path is relative to the context, which is the solution root
     networks: # All microservices are connected by this private Docker network, which also provides DNS
       - todoapp-network
     labels:
