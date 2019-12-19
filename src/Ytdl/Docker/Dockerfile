@@ -9,4 +9,5 @@ WORKDIR /var/www/html/api/ytdl
 RUN npm i
 RUN cp -r ./node_modules/m3u8stream/dist ./node_modules/m3u8stream/lib
 RUN chown www-data:www-data ./files
+# CMD nohup node poll.js > log.txt &
 # RUN npm install

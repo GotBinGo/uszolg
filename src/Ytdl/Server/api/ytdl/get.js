@@ -13,9 +13,6 @@ async function redis() {
     var b = await conv(a)
     console.log(a);
   }
-  setTimeout(x => {
-      redis();
-  }, 1000);
 }
 
 
